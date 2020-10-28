@@ -1,99 +1,107 @@
 #!/usr/bin/python3
-
 """
-codigo de la ivi queen.
+N queens
 """
 
+import sys
 
-if __name__ == '__main__':
 
-    import sys
-    import copy
+def is_not_safe_position(board, i, j, r):
+    """
+    Method that determines if position (i, j) on the chessboard is safe
+    to allocate a queen.
+    Args:
+        - board (list):     list
+        - i     (int):      x coordinate to be evaluated
+        - j     (int):      y coordinate to be evaluated
+        - r     (int):      current row
+    Returns:
+        True    (bool):     in case it is safe
+        False   (bool):     in case it is not safe
+    """
 
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
-    try:
-        size = int(sys.argv[1])
-    except BaseException:
-        print("N must be a number")
-        sys.exit(1)
-    if size < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-
-    def get_board(size):
-        """comentario reload"""
-        board = [0] * size
-        for ix in range(size):
-            board[ix] = [0] * size
-        return board
-
-    def print_solutions(solutions, size):
-        """comentarios y mas comentarios"""
-        new = []
-        for sol in solutions:
-            tmp = []
-            for i, row in enumerate(sol):
-                inner = []
-                for j, num in enumerate(row):
-                    if num == 1:
-                        inner.append(j)
-                        inner.append(i)
-                tmp.append(inner)
-            new.append(tmp)
-        for ans in new:
-            print(ans)
-
-    def is_safe(board, row, col, size):
-        """mis lindos comentarios"""
-
-        # check row on left side
-        for iy in range(col):
-            if board[row][iy] == 1:
-                return False
-
-        ix, iy = row, col
-        while ix >= 0 and iy >= 0:
-            if board[ix][iy] == 1:
-                return False
-            ix -= 1
-            iy -= 1
-
-        jx, jy = row, col
-        while jx < size and jy >= 0:
-            if board[jx][jy] == 1:
-                return False
-            jx += 1
-            jy -= 1
-
+    # Is board[i] in line of attack ?
+    if (board[i] == j) or (board[i] == j - i + r) or (board[i] == i - r + j):
         return True
+    return False
 
-    def solve(board, col, size):
-        """comentario por que si"""
-        # base case
-        if col >= size:
-            return
 
-        for i in range(size):
-            if is_safe(board, i, col, size):
-                board[i][col] = 1
-                if col == size - 1:
-                    add_solution(board)
-                    board[i][col] = 0
-                    return
-                solve(board, col + 1, size)
-                # backtrack
-                board[i][col] = 0
+def find_positions(board, row, n):
+    """
+    Recursive method that finds all safe position (i, j) where n queens
+    can be allocated.
+    Args:
+        - board (list):     list
+        - row   (int):      current row
+        - n     (int):      number of queens to be allocated
+    Returns:
+        -       (lists):    lists of all possible solutions
+    """
 
-    def add_solution(board):
-        """aja aqui va el comentario por que toca"""
-        global solutions
-        saved_board = copy.deepcopy(board)
-        solutions.append(saved_board)
+    if row == n:
+        print_chess_board(board, n)
 
-    board = get_board(size)
-    solutions = []
-    solve(board, 0, size)
+    else:
+        for j in range(n):
+            legal = True
+            for i in range(row):
+                if is_not_safe_position(board, i, j, row):
+                    legal = False
+            if legal:
+                board[row] = j
+                find_positions(board, row + 1, n)
 
-    print_solutions(solutions, size)
+
+def print_chess_board(board, n):
+    """
+    Method that generates the list of positions (i, j) where n queens
+    were allocated.
+    Args:
+        - board (list):     list
+        - n     (int):      number of queens to be allocated
+    Returns:
+        - nothing
+    """
+
+    b = []
+
+    for i in range(n):
+        for j in range(n):
+            if j == board[i]:
+                b.append([i, j])
+    print(b)
+
+
+def create_chess_board(size):
+    """
+    Method that generates a list of zeros
+    Args:
+        - size  (int):      number of queens to be allocated
+    Returns:
+        - board (list)
+    """
+
+    return [0 * size for i in range(size)]
+
+
+# 1. Read and validate size of the board
+if len(sys.argv) != 2:
+    print("Usage: nqueens N")
+    exit(1)
+
+try:
+    n = int(sys.argv[1])
+except BaseException:
+    print("N must be a number")
+    exit(1)
+
+if (n < 4):
+    print("N must be at least 4")
+    exit(1)
+
+# 2. Generate the board
+board = create_chess_board(int(n))
+
+# 3. Find the solutions
+row = 0
+find_positions(board, row, int(n))
