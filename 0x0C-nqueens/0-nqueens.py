@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-N queens
+comentario random por que toca
 """
 
 import sys
@@ -8,16 +8,7 @@ import sys
 
 def is_not_safe_position(board, i, j, r):
     """
-    Method that determines if position (i, j) on the chessboard is safe
-    to allocate a queen.
-    Args:
-        - board (list):     list
-        - i     (int):      x coordinate to be evaluated
-        - j     (int):      y coordinate to be evaluated
-        - r     (int):      current row
-    Returns:
-        True    (bool):     in case it is safe
-        False   (bool):     in case it is not safe
+    comentario random por que toca
     """
 
     # Is board[i] in line of attack ?
@@ -28,14 +19,7 @@ def is_not_safe_position(board, i, j, r):
 
 def find_positions(board, row, n):
     """
-    Recursive method that finds all safe position (i, j) where n queens
-    can be allocated.
-    Args:
-        - board (list):     list
-        - row   (int):      current row
-        - n     (int):      number of queens to be allocated
-    Returns:
-        -       (lists):    lists of all possible solutions
+    comentario random por que toca
     """
 
     if row == n:
@@ -54,13 +38,7 @@ def find_positions(board, row, n):
 
 def print_chess_board(board, n):
     """
-    Method that generates the list of positions (i, j) where n queens
-    were allocated.
-    Args:
-        - board (list):     list
-        - n     (int):      number of queens to be allocated
-    Returns:
-        - nothing
+    comentario random por que toca
     """
 
     b = []
@@ -74,11 +52,7 @@ def print_chess_board(board, n):
 
 def create_chess_board(size):
     """
-    Method that generates a list of zeros
-    Args:
-        - size  (int):      number of queens to be allocated
-    Returns:
-        - board (list)
+   comentario random por que toca
     """
 
     return [0 * size for i in range(size)]
