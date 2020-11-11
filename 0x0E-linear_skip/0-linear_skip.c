@@ -2,10 +2,10 @@
 
 /**
  * ls - linear search through a linked list
- * @prev: pointer to node at start of search
- * @exp: pointer to node at end of search
- * @value: value to search
- * Return: pointer to node where value is found, or NULL if not found
+ * @prev: un comentario aleatorio
+ * @exp: un comentario aleatorio
+ * @value: un comentario aleatorio
+ * Return: un comentario aleatorio
  */
 skiplist_t *ls(skiplist_t *prev, skiplist_t *exp, int value)
 {
@@ -24,9 +24,9 @@ skiplist_t *ls(skiplist_t *prev, skiplist_t *exp, int value)
 
 /**
  * linear_skip -  searches for a value in a sorted skip list of integers
- * @list: input list
- * @value: value to be searched
- * Return: pointer to node where value is found, or NULL if not found
+ * @list: un comentario aleatorio
+ * @value: un comentario aleatorio
+ * Return: un comentario aleatorio
  */
 skiplist_t *linear_skip(skiplist_t *list, int value)
 {
