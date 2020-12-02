@@ -21,4 +21,3 @@ def rain(walls):
         level = max(level, cur_lvl)
         water += level - cur_lvl
     return water
-    
