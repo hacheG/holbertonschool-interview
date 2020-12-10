@@ -2,7 +2,7 @@
 
 /**
  * _advanced_binary - finds first occurence of element in array
- * @original: pointer 
+ * @original: pointer
  * @array: array to array
  * @size: size of size
  * @value: value to value
