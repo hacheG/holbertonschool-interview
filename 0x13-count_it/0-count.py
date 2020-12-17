@@ -2,6 +2,7 @@
 """un comentario mas por que es cool"""
 import requests
 
+
 def count_words(subreddit, word_list, first_call=True, after="", dic={}):
     """un comentario mas por que es cool"""
     if first_call:
