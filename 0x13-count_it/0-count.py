@@ -1,61 +1,40 @@
 #!/usr/bin/python3
-"""
-un comentario mas por que es cool
-"""
-
+"""Get request to reddit API"""
 import requests
 
 
-def count_words(subreddit, word_list):
-    """
-    un comentario mas por que es cool
-    """
-
-    instances = {}
-    after = ""
-    count = 0
-
-    return alt_count_words(subreddit, word_list, instances, after, count)
-
-
-def alt_count_words(subreddit, word_list, instances={}, after="", count=0):
-    """
-un comentario mas por que es cool
-    """
-
-    url = "https://www.reddit.com/r/" + subreddit + "/hot/.json"
-    h = {"User-Agent": "rodrigo_rca"}
-    p = {"after": after, "count": count, "limit": 100}
-
-    response = requests.get(url, headers=h, params=p, allow_redirects=False)
-    try:
-        rr = response.json()
-        if (response.status_code > 300):
-            raise BaseException
-    except BaseException:
-        return
-
-    rr = rr.get("data")
-    after = rr.get("after")
-    count += rr.get("dist")
-    for child in rr.get("children"):
-        title = child.get("data").get("title").lower().split()
-        for word in word_list:
-            if (word.lower() in title):
-                t = len([t for t in title if t == word.lower()])
-                w = instances.get(word)
-                instances[word] = t if w is None else instances[word] + t
-
-    if (after is None):
-        if (len(instances) == 0):
-            print("")
-            return
-        code = []
-        for item, value in instances.items():
-            code.append((value, item))
-        code.sort(reverse=True)
-        for k in code:
-            item, value = k[0], k[1]
-            print("{}: {}".format(value, item))
+def count_words(subreddit, word_list, first_call=True, after="", dic={}):
+    """Cound # of keywords"""
+    if first_call:
+        word_list = list(set(word_list))
+        for i, e in enumerate(word_list):
+            word_list[i] = e.lower()
+        d = count_words(subreddit, word_list, False)
+        if d:
+            for key, value in sorted(d.items(), key=lambda x: (-x[1], x[0])):
+                print("{}: {}".format(key, value))
+        elif d is None:
+            return None
     else:
-        alt_count_words(subreddit, word_list, instances, after, count)
+        base_url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
+        h = {'User-Agent': 'Reddit API test'}
+        params = {'limit': 200, 'after': after}
+        r = requests.get(base_url, headers=h,
+                         allow_redirects=False, params=params)
+        if r.status_code != 200:
+            return None
+        d = r.json()
+        if after is None:
+            return dic
+        l = d.get('data', {}).get('children')
+        for i in l:
+            title = i.get('data', {}).get('title').lower().split()
+            for j in word_list:
+                for t in title:
+                    if j == t:
+                        if j not in dic:
+                            dic[j] = 1
+                        else:
+                            dic[j] += 1
+        p = d.get('data', {}).get('after')
+        return count_words(subreddit, word_list, False, p, dic)
