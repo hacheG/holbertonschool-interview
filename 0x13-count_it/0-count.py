@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-"""Get request to reddit API"""
+"""un comentario mas por que es cool"""
 import requests
 
-
 def count_words(subreddit, word_list, first_call=True, after="", dic={}):
-    """Cound # of keywords"""
+    """un comentario mas por que es cool"""
     if first_call:
         word_list = list(set(word_list))
         for i, e in enumerate(word_list):
