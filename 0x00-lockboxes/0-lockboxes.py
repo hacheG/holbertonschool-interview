@@ -1,6 +1,6 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
-
+#tratando de insertar algo nuevo
 def canUnlockAll(boxes):
 
     key = 0
